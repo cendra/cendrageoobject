@@ -3,7 +3,7 @@ package org.cendra.geoobject.populate.download.geonames.countries.subdivisions;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.cendra.common.model.Entity;
+import org.cendra.geoobject.populate.model.Entity;
 
 public class CountrySubdivisionsGeoname extends Entity {
 

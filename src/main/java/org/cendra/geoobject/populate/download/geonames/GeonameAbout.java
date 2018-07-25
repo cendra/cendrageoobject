@@ -3,8 +3,8 @@ package org.cendra.geoobject.populate.download.geonames;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.cendra.common.model.Entity;
 import org.cendra.geoobject.populate.download.geonames.countries.alternatenames.NameAbout;
+import org.cendra.geoobject.populate.model.Entity;
 
 public class GeonameAbout extends Entity {
 
