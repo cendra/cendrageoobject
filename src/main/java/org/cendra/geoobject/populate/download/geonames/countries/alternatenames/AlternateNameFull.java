@@ -1,8 +1,8 @@
 package org.cendra.geoobject.populate.download.geonames.countries.alternatenames;
 
-import org.cendra.geoobject.populate.model.Entity;
+import org.cendra.geoobject.populate.model.EntityOld;
 
-public class AlternateNameFull extends Entity {
+public class AlternateNameFull extends EntityOld {
 
 	/**
 	 * 

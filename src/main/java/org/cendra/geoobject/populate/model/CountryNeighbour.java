@@ -1,6 +1,6 @@
 package org.cendra.geoobject.populate.model;
 
-public class CountryNeighbour {
+class CountryNeighbour {
 
 	private ISO31661Neighbour iso31661 = new ISO31661Neighbour();
 

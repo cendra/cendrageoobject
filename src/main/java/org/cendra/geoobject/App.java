@@ -123,7 +123,7 @@ public class App {
 
 			DownloadAbout downloadAbout = new DownloadAbout(htmlDocumentUtil,
 					prop);
-			downloadAbout.download(false);
+//			downloadAbout.download(false);
 
 			// ----------------------------------------------------------------
 			// WIIPEDIA

@@ -1,8 +1,8 @@
 package org.cendra.geoobject.populate.download.geonames.continents;
 
-import org.cendra.geoobject.populate.model.Entity;
+import org.cendra.geoobject.populate.model.EntityOld;
 
-public class ContinentGeoname extends Entity {
+public class ContinentGeoname extends EntityOld {
 
 	/**
 	 * 

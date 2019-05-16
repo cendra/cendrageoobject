@@ -1,6 +1,6 @@
 package org.cendra.geoobject.populate.model;
 
-public class ContinentCode {
+class ContinentCode {
 
 	private String code;
 

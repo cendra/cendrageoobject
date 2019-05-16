@@ -29,18 +29,18 @@ import org.cendra.geoobject.populate.download.wikipedia.countries.DownloadCountr
 import org.cendra.geoobject.populate.download.wikipedia.countries.DownloadWikiCountries;
 import org.cendra.geoobject.populate.download.wikipedia.countries.DownloadWikiCountriesISO2;
 import org.cendra.geoobject.populate.download.wikipedia.countries.continents.africa.CountryWikipediaAfrica;
-import org.cendra.geoobject.populate.download.wikipedia.countries.continents.africa.DownloadWikiCountriesAfrica;
 import org.cendra.geoobject.populate.download.wikipedia.countries.continents.america.CountryWikipediaAmerica;
-import org.cendra.geoobject.populate.download.wikipedia.countries.continents.america.DownloadWikiCountriesAmerica;
 import org.cendra.geoobject.populate.download.wikipedia.countries.continents.asia.CountryWikipediaAsia;
-import org.cendra.geoobject.populate.download.wikipedia.countries.continents.asia.DownloadWikiCountriesAsia;
 import org.cendra.geoobject.populate.download.wikipedia.countries.continents.europa.CountryWikipediaEuropa;
-import org.cendra.geoobject.populate.download.wikipedia.countries.continents.europa.DownloadWikiCountriesEurpoa;
 import org.cendra.geoobject.populate.download.wikipedia.countries.continents.oceania.CountryWikipediaOceania;
-import org.cendra.geoobject.populate.download.wikipedia.countries.continents.oceania.DownloadWikiCountriesOceania;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.geo.model.continent.Continent;
+import org.geo.model.country.Country;
+import org.geo.model.country.Currency;
+import org.geo.model.country.PostalCode;
+import org.geo.model.country.iso3166alpha2state.ISO3166Alpha2State;
 
 public class BuildModel extends Download {
 
@@ -124,7 +124,7 @@ public class BuildModel extends Download {
 		for (ContinentGeoname continentGeoname : continentsGeoNames) {
 
 			Continent continent = new Continent();
-			continent.setGeonameId(Integer.valueOf(continentGeoname
+			continent.setId(Long.valueOf(continentGeoname
 					.getGeonameId().toString()));
 			continent.setCode(continentGeoname.getCode());
 			continent.setShortName(continentGeoname.getShortName());
@@ -372,10 +372,11 @@ public class BuildModel extends Download {
 			Country countryContinent = new Country();
 			countryContinent.getIso31661().setAlpha2(
 					countryGeoname.getIso3166Alpha2());
+			
 			for (Continent continent : continents) {
 				if (countryGeoname.getContinent().trim()
 						.equalsIgnoreCase(continent.getCode().trim())) {
-					continent.addCountry(countryContinent);
+//					continent.addCountry(countryContinent);
 				}
 			}
 
@@ -389,8 +390,16 @@ public class BuildModel extends Download {
 
 			Country country = new Country();
 
-			ContinentCode continent = new ContinentCode();
-			continent.setCode(countryGeoname.getContinent());
+			Continent continent = new Continent();
+			
+			for (Continent continent2 : continents) {
+				if (countryGeoname.getContinent().trim()
+						.equalsIgnoreCase(continent2.getCode().trim())) {
+//					continent.addCountry(countryContinent);
+					continent.setId(continent2.getId());
+				}
+			}			
+//			continent.setCode(countryGeoname.getContinent());
 			country.setContinent(continent);
 
 			country.getIso31661().setAlpha2(countryGeoname.getIso3166Alpha2());
@@ -419,7 +428,7 @@ public class BuildModel extends Download {
 									countryInfoGeoname.getCountry().trim()) == false) {
 						country.setName2(countryInfoGeoname.getCountry());
 					}
-					country.setGeonameId(Integer.valueOf(countryInfoGeoname
+					country.setId(Long.valueOf(countryInfoGeoname
 							.getGeonameId().toString()));
 					country.getFips().setEquivalentFipsCode(
 							countryInfoGeoname.getEquivalentFipsCode());
@@ -439,8 +448,16 @@ public class BuildModel extends Download {
 					country.setCurrency(currency);
 					for (String countrycISO : countryInfoGeoname
 							.getNeighbours()) {
-						CountryNeighbour countryNeighbour = new CountryNeighbour();
-						countryNeighbour.getIso31661().setAlpha2(countrycISO);
+						
+						
+						Country countryNeighbour = new Country();
+						
+						for (CountryInfoGeoname countryInfoGeoname2 : countriesInfoGeonames) {
+							if(countryInfoGeoname2.getIso().trim().equalsIgnoreCase(countrycISO.trim())){
+								countryNeighbour.setId(countryInfoGeoname2.getGeonameId());
+							}
+						}												
+//						countryNeighbour.getIso31661().setAlpha2(countrycISO);
 						country.addNeighbour(countryNeighbour);
 					}
 					country.setLanguages(countryInfoGeoname.getLanguages());
@@ -462,7 +479,7 @@ public class BuildModel extends Download {
 		File json = new File(countriesFile.getAbsolutePath()
 				+ File.separatorChar + "countries.json");
 
-		mapper.writeValue(json, countries);
+//		mapper.writeValue(json, countries);
 
 		return json;
 
@@ -729,7 +746,7 @@ public class BuildModel extends Download {
 		File json = new File(countriesFile.getAbsolutePath()
 				+ File.separatorChar + "countries.json");
 
-		mapper.writeValue(json, countries);
+//		mapper.writeValue(json, countries);
 
 	}
 
@@ -805,6 +822,58 @@ public class BuildModel extends Download {
 			File countriesResultFile, File wikiCountriesFile,
 			List<CountryWikipediaISO2> countriesWikipediaISO2,
 			List<Country> countries) throws Exception {
+		
+		File stateFile = new File(countriesFile.getAbsolutePath() + File.separatorChar + "iso3166Alpha2State");
+		stateFile.mkdirs();
+		
+		ISO3166Alpha2State iso3166Alpha2State = new ISO3166Alpha2State();
+		iso3166Alpha2State.setId(1L);
+		iso3166Alpha2State.setName(CountryWikipediaISO2.DELETED);
+		File json = new File(stateFile.getAbsolutePath()
+				+ File.separatorChar + iso3166Alpha2State.getId() + ".json");
+		mapper.writeValue(json, iso3166Alpha2State);
+		
+		iso3166Alpha2State = new ISO3166Alpha2State();
+		iso3166Alpha2State.setId(2L);
+		iso3166Alpha2State.setName(CountryWikipediaISO2.EXCEPTIONALLY);
+		json = new File(stateFile.getAbsolutePath()
+				+ File.separatorChar + iso3166Alpha2State.getId() + ".json");
+		mapper.writeValue(json, iso3166Alpha2State);
+		
+		iso3166Alpha2State = new ISO3166Alpha2State();
+		iso3166Alpha2State.setId(3L);
+		iso3166Alpha2State.setName(CountryWikipediaISO2.INDETERMINATELY);
+		json = new File(stateFile.getAbsolutePath()
+				+ File.separatorChar + iso3166Alpha2State.getId() + ".json");
+		mapper.writeValue(json, iso3166Alpha2State);
+		
+		iso3166Alpha2State = new ISO3166Alpha2State();
+		iso3166Alpha2State.setId(4L);
+		iso3166Alpha2State.setName(CountryWikipediaISO2.OFfICIALLY);
+		json = new File(stateFile.getAbsolutePath()
+				+ File.separatorChar + iso3166Alpha2State.getId() + ".json");
+		mapper.writeValue(json, iso3166Alpha2State);
+		
+		iso3166Alpha2State = new ISO3166Alpha2State();
+		iso3166Alpha2State.setId(5L);
+		iso3166Alpha2State.setName(CountryWikipediaISO2.TRANSITIONALLY);
+		json = new File(stateFile.getAbsolutePath()
+				+ File.separatorChar + iso3166Alpha2State.getId() + ".json");
+		mapper.writeValue(json, iso3166Alpha2State);
+		
+		iso3166Alpha2State = new ISO3166Alpha2State();
+		iso3166Alpha2State.setId(6L);
+		iso3166Alpha2State.setName(CountryWikipediaISO2.UNASSIGNED);
+		json = new File(stateFile.getAbsolutePath()
+				+ File.separatorChar + iso3166Alpha2State.getId() + ".json");
+		mapper.writeValue(json, iso3166Alpha2State);
+		
+		iso3166Alpha2State = new ISO3166Alpha2State();
+		iso3166Alpha2State.setId(7L);
+		iso3166Alpha2State.setName(CountryWikipediaISO2.USER_ASSIGNED);
+		json = new File(stateFile.getAbsolutePath()
+				+ File.separatorChar + iso3166Alpha2State.getId() + ".json");
+		mapper.writeValue(json, iso3166Alpha2State);
 
 		for (Country country : countries) {
 
@@ -816,39 +885,41 @@ public class BuildModel extends Download {
 						.equalsIgnoreCase(
 								countryWikipediaISO2.getIso3166Alpha2().trim())) {
 
-					ISO3166Alpha2State iso3166Alpha2State = new ISO3166Alpha2State();
+					iso3166Alpha2State = new ISO3166Alpha2State();
 
 					iso3166Alpha2State.setName(countryWikipediaISO2
 							.getIso3166Alpha2State());
 					if (iso3166Alpha2State.getName().equals(
 							CountryWikipediaISO2.DELETED)) {
-						iso3166Alpha2State.setCode(1);
+						iso3166Alpha2State.setId(1L);
 					} else if (iso3166Alpha2State.getName().equals(
 							CountryWikipediaISO2.EXCEPTIONALLY)) {
-						iso3166Alpha2State.setCode(2);
+						iso3166Alpha2State.setId(2L);
 					} else if (iso3166Alpha2State.getName().equals(
 							CountryWikipediaISO2.INDETERMINATELY)) {
-						iso3166Alpha2State.setCode(3);
+						iso3166Alpha2State.setId(3L);
 					} else if (iso3166Alpha2State.getName().equals(
 							CountryWikipediaISO2.OFfICIALLY)) {
-						iso3166Alpha2State.setCode(4);
+						iso3166Alpha2State.setId(4L);
 					} else if (iso3166Alpha2State.getName().equals(
 							CountryWikipediaISO2.TRANSITIONALLY)) {
-						iso3166Alpha2State.setCode(5);
+						iso3166Alpha2State.setId(5L);
 					} else if (iso3166Alpha2State.getName().equals(
 							CountryWikipediaISO2.UNASSIGNED)) {
-						iso3166Alpha2State.setCode(6);
+						iso3166Alpha2State.setId(6L);
 					} else if (iso3166Alpha2State.getName().equals(
 							CountryWikipediaISO2.USER_ASSIGNED)) {
-						iso3166Alpha2State.setCode(7);
+						iso3166Alpha2State.setId(7L);
 					} else {
 						throw new Exception(iso3166Alpha2State.getName());
 					}
+					
+					iso3166Alpha2State.setName(null);
 
 					country.getIso31661().setIso3166Alpha2State(
 							iso3166Alpha2State);
 
-					File json = new File(countriesFile.getAbsolutePath()
+					json = new File(countriesFile.getAbsolutePath()
 							+ File.separatorChar
 							+ country.getIso31661().getAlpha2().toLowerCase()
 							+ ".json");
@@ -861,10 +932,10 @@ public class BuildModel extends Download {
 			}
 		}
 
-		File json = new File(countriesFile.getAbsolutePath()
+		json = new File(countriesFile.getAbsolutePath()
 				+ File.separatorChar + "countries.json");
 
-		mapper.writeValue(json, countries);
+//		mapper.writeValue(json, countries);
 
 	}
 
@@ -1812,7 +1883,7 @@ public class BuildModel extends Download {
 		File json = new File(countriesFile.getAbsolutePath()
 				+ File.separatorChar + "countries.json");
 
-		mapper.writeValue(json, countries);
+//		mapper.writeValue(json, countries);
 
 	}
 
@@ -1931,7 +2002,7 @@ public class BuildModel extends Download {
 		File json = new File(countriesFile.getAbsolutePath()
 				+ File.separatorChar + "countries.json");
 
-		mapper.writeValue(json, countries);
+//		mapper.writeValue(json, countries);
 
 	}
 

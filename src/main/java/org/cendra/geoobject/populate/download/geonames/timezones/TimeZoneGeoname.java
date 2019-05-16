@@ -1,8 +1,8 @@
 package org.cendra.geoobject.populate.download.geonames.timezones;
 
-import org.cendra.geoobject.populate.model.Entity;
+import org.cendra.geoobject.populate.model.EntityOld;
 
-public class TimeZoneGeoname extends Entity {
+public class TimeZoneGeoname extends EntityOld {
 
 	/**
 	 * 

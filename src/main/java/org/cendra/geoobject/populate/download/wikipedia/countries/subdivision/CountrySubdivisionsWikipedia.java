@@ -3,9 +3,9 @@ package org.cendra.geoobject.populate.download.wikipedia.countries.subdivision;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.cendra.geoobject.populate.model.Entity;
+import org.cendra.geoobject.populate.model.EntityOld;
 
-public class CountrySubdivisionsWikipedia extends Entity {
+public class CountrySubdivisionsWikipedia extends EntityOld {
 
 	/**
 	 * 

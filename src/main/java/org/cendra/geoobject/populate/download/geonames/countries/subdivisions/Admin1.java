@@ -1,8 +1,8 @@
 package org.cendra.geoobject.populate.download.geonames.countries.subdivisions;
 
-import org.cendra.geoobject.populate.model.Entity;
+import org.cendra.geoobject.populate.model.EntityOld;
 
-public class Admin1 extends Entity {
+public class Admin1 extends EntityOld {
 
 	/**
 	 * 

@@ -1,6 +1,6 @@
 package org.cendra.geoobject.populate.model;
 
-public class ISO31661Neighbour {
+class ISO31661Neighbour {
 
 	private String alpha2;
 

@@ -1,8 +1,8 @@
 package org.cendra.geoobject.populate.download.geonames.languajes;
 
-import org.cendra.geoobject.populate.model.Entity;
+import org.cendra.geoobject.populate.model.EntityOld;
 
-public class LanguageGeoname extends Entity {
+public class LanguageGeoname extends EntityOld {
 
 	/**
 	 * 

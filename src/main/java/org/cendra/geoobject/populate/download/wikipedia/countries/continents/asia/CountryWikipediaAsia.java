@@ -1,8 +1,8 @@
 package org.cendra.geoobject.populate.download.wikipedia.countries.continents.asia;
 
-import org.cendra.geoobject.populate.model.Entity;
+import org.cendra.geoobject.populate.model.EntityOld;
 
-public class CountryWikipediaAsia extends Entity {
+public class CountryWikipediaAsia extends EntityOld {
 
 	/**
 	 * 

@@ -1,8 +1,8 @@
 package org.cendra.geoobject.populate.download.wikipedia.countries.subdivision;
 
-import org.cendra.geoobject.populate.model.Entity;
+import org.cendra.geoobject.populate.model.EntityOld;
 
-public class SubdivisionsFormWikipedia extends Entity {
+public class SubdivisionsFormWikipedia extends EntityOld {
 
 
 

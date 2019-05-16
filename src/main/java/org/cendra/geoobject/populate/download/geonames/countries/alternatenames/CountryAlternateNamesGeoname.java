@@ -3,9 +3,9 @@ package org.cendra.geoobject.populate.download.geonames.countries.alternatenames
 import java.util.ArrayList;
 import java.util.List;
 
-import org.cendra.geoobject.populate.model.Entity;
+import org.cendra.geoobject.populate.model.EntityOld;
 
-public class CountryAlternateNamesGeoname extends Entity {
+public class CountryAlternateNamesGeoname extends EntityOld {
 
 	/**
 	 * 

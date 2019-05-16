@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("serial")
-public class Entity implements Serializable {
+public class EntityOld implements Serializable {
 
 	protected String formatValue(String value) {
 		if (value != null) {
